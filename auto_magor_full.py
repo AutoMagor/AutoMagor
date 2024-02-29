@@ -55,7 +55,7 @@ class MagazineCreator:
         is_using_default = True
         if article.image_path:
             is_using_default = False
-            image = f"to_process\\{article.image_path}"
+            image = os.path.join("to_process", article.image_path)
 
         # Article Image
         with open(image, "rb") as fp:
@@ -228,7 +228,7 @@ class MagazineCreator:
 
     def save_page(self, article, page_number):
         page_file_name = f"{article.text_path[:-4]}_{page_number:02d}.png"
-        self.out.save(f"pages\\{page_file_name}")
+        self.out.save(os.path.join("pages", page_file_name))
 
     def reset_draw_page(self):
         self.out = Image.new("RGB", (1530, 1980), (255, 255, 255))
@@ -306,4 +306,4 @@ class Cover:
             self.draw.text((35, y), title_apply, font=self.font_text, fill=(0, 0, 0))
             y += 85
 
-        self.out.save(f"pages\\000cover.png")
+        self.out.save(os.path.join("pages", "000cover.png"))

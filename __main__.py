@@ -40,7 +40,8 @@ def main():
 
     articles = []
     for f in files:
-        with open(f"to_process\\{f}", 'r', encoding='utf-8') as fp:
+        path = os.path.join("to_process", f)
+        with open(path, 'r', encoding='utf-8') as fp:
             text = fp.read().strip()
         lines = text.splitlines()
         article = Article()
@@ -88,7 +89,8 @@ def main():
     pages = sorted(pages)
     page_images = []
     for page in pages:
-        page_images.append(PIL.Image.open(f"pages\\{page}").convert("RGB"))
+        path = os.path.join("pages", page)
+        page_images.append(PIL.Image.open(path).convert("RGB"))
 
     pdf = page_images[0]
     date_str = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")

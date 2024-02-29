@@ -10,13 +10,13 @@ A simple Python program to create a 3 column print magazine from text files and 
 
 ## Setup 💽
 
-Tested on Windows only
+Tested on Windows & Linux Mint
 
 ```bash
 $ mkdir my_magazine
 $ cd my_magazine
 $ python -m venv MAGENV
-$ .\MAGENV\Scripts\activate
+$ .\MAGENV\Scripts\activate    OR if Linux    source ./MAGENV/bin/activate
 $ python -m pip install pillow==10.2.0
 $ git clone git@github.com:AutoMagor/AutoMagor.git
 $ python AutoMagor --help
