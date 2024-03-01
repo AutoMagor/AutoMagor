@@ -65,7 +65,7 @@ date:January 1, 2024
 image:article_01.png
 source: Text that will appear after the date
 body:
-The first sentence of the first paragrph. The second sentence of the first paragraph.
+The first sentence of the first paragraph. The second sentence of the first paragraph.
 
 The second paragraph is here. Another sentence in the second paragraph.
 ```
