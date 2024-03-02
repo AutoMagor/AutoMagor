@@ -27,7 +27,7 @@ class Article:
         return f"Article<{self.text_path} - {self.title}>"
 
 
-def main():
+def main(use_ink_saver: bool):
     print("-- Auto Magor --")
 
     os.makedirs("to_process", exist_ok=True)
@@ -82,7 +82,7 @@ def main():
     cover = Cover(articles)
     cover.create()
 
-    creator = MagazineCreator(articles)
+    creator = MagazineCreator(articles, use_ink_saver)
     creator.create()
 
     pages = [f for f in os.listdir("pages")]
@@ -103,9 +103,10 @@ def main():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="AutoMagor")
     parser.add_argument("--create", help="Create magazine", action='store_true')
+    parser.add_argument("--no-ink-saver", help="Do not apply the ink saver image", action='store_true')
     args = parser.parse_args()
 
     if args.create:
-        main()
+        main(not args.no_ink_saver)
     else:
         parser.print_help()

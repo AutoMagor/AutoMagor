@@ -13,8 +13,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 class MagazineCreator:
 
-    def __init__(self, articles):
+    def __init__(self, articles, use_ink_saver: bool):
         self.articles = articles
+        self.use_ink_saver = use_ink_saver
 
         self.font_body = ImageFont.truetype("times.ttf", 25)
         self.font_author = ImageFont.truetype("times.ttf", 26)
@@ -70,7 +71,7 @@ class MagazineCreator:
 
                 final = Image.new("RGBA", im.size)
                 final = Image.alpha_composite(final, im)
-                if not is_using_default:
+                if not is_using_default and self.use_ink_saver:
                     final = Image.alpha_composite(final, ims)
 
         self.out.paste(final, box=(x, 35))
