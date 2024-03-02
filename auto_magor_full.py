@@ -261,8 +261,9 @@ class MagazineCreator:
 
 class Cover:
 
-    def __init__(self, articles):
+    def __init__(self, articles, blank_page_after_cover: bool):
         self.articles = articles
+        self.blank_page_after_cover = blank_page_after_cover
 
         self.font_date = ImageFont.truetype("times.ttf", 50)
         self.font_text = ImageFont.truetype("timesi.ttf", 40)
@@ -272,6 +273,9 @@ class Cover:
 
     def create(self):
         os.makedirs("pages", exist_ok=True)
+
+        if self.blank_page_after_cover:
+            self.out.save(os.path.join("pages", "001cover_blank.png"))
 
         image = os.path.join(HERE, "default.png")
         with open(image, "rb") as fp:

@@ -27,7 +27,7 @@ class Article:
         return f"Article<{self.text_path} - {self.title}>"
 
 
-def main(use_ink_saver: bool):
+def main(use_ink_saver: bool, blank_page_after_cover: bool):
     print("-- Auto Magor --")
 
     os.makedirs("to_process", exist_ok=True)
@@ -79,7 +79,7 @@ def main(use_ink_saver: bool):
     if os.path.isdir("pages"):
         shutil.rmtree("pages")
 
-    cover = Cover(articles)
+    cover = Cover(articles, blank_page_after_cover)
     cover.create()
 
     creator = MagazineCreator(articles, use_ink_saver)
@@ -104,9 +104,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="AutoMagor")
     parser.add_argument("--create", help="Create magazine", action='store_true')
     parser.add_argument("--no-ink-saver", help="Do not apply the ink saver image", action='store_true')
+    parser.add_argument("--blank-page-after-cover",
+                        help="Add a blank page after the cover. Useful if you print on both sides, but don't want to "
+                             "print on the back of the cover page.",
+                        action='store_true')
     args = parser.parse_args()
 
     if args.create:
-        main(not args.no_ink_saver)
+        main(not args.no_ink_saver, args.blank_page_after_cover)
     else:
         parser.print_help()
