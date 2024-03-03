@@ -2,6 +2,7 @@ import argparse
 import datetime
 import os
 import shutil
+from typing import Optional
 
 try:
     import PIL
@@ -27,8 +28,12 @@ class Article:
         return f"Article<{self.text_path} - {self.title}>"
 
 
-def main(use_ink_saver: bool, blank_page_after_cover: bool):
+def main(use_ink_saver: bool, blank_page_after_cover: bool, header_image: Optional[str]):
     print("-- Auto Magor --")
+
+    if header_image:
+        if not os.path.exists(header_image):
+            raise FileNotFoundError(f"--header-image not found. {header_image}")
 
     os.makedirs("to_process", exist_ok=True)
     files = os.listdir("to_process")
@@ -79,10 +84,10 @@ def main(use_ink_saver: bool, blank_page_after_cover: bool):
     if os.path.isdir("pages"):
         shutil.rmtree("pages")
 
-    cover = Cover(articles, blank_page_after_cover)
+    cover = Cover(articles, blank_page_after_cover, header_image)
     cover.create()
 
-    creator = MagazineCreator(articles, use_ink_saver)
+    creator = MagazineCreator(articles, use_ink_saver, header_image)
     creator.create()
 
     pages = [f for f in os.listdir("pages")]
@@ -108,9 +113,11 @@ if __name__ == "__main__":
                         help="Add a blank page after the cover. Useful if you print on both sides, but don't want to "
                              "print on the back of the cover page.",
                         action='store_true')
+    parser.add_argument("--header-image",
+                        help="Path to image that will be on the cover and articles that do not have an image.")
     args = parser.parse_args()
 
     if args.create:
-        main(not args.no_ink_saver, args.blank_page_after_cover)
+        main(not args.no_ink_saver, args.blank_page_after_cover, args.header_image)
     else:
         parser.print_help()

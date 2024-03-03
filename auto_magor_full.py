@@ -1,5 +1,6 @@
 import datetime
 import os
+from typing import Optional
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -13,9 +14,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 class MagazineCreator:
 
-    def __init__(self, articles, use_ink_saver: bool):
+    def __init__(self, articles, use_ink_saver: bool, header_image: Optional[str]):
         self.articles = articles
         self.use_ink_saver = use_ink_saver
+        self.header_image = header_image
 
         self.font_body = ImageFont.truetype("times.ttf", 25)
         self.font_author = ImageFont.truetype("times.ttf", 26)
@@ -52,7 +54,7 @@ class MagazineCreator:
         x = 554 if page_reuse else 87
         self.column_max_height = COLUMN_SHORT_MAX_HEIGHT
 
-        image = os.path.join(HERE, "default.png")
+        image = self.header_image or os.path.join(HERE, "default.png")
         is_using_default = True
         if article.image_path:
             is_using_default = False
@@ -261,9 +263,10 @@ class MagazineCreator:
 
 class Cover:
 
-    def __init__(self, articles, blank_page_after_cover: bool):
+    def __init__(self, articles, blank_page_after_cover: bool, header_image: Optional[str]):
         self.articles = articles
         self.blank_page_after_cover = blank_page_after_cover
+        self.header_image = header_image
 
         self.font_date = ImageFont.truetype("times.ttf", 50)
         self.font_text = ImageFont.truetype("timesi.ttf", 40)
@@ -277,7 +280,7 @@ class Cover:
         if self.blank_page_after_cover:
             self.out.save(os.path.join("pages", "001cover_blank.png"))
 
-        image = os.path.join(HERE, "default.png")
+        image = self.header_image or os.path.join(HERE, "default.png")
         with open(image, "rb") as fp:
             im = Image.open(fp)
             im = im.convert("RGBA")
