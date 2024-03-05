@@ -263,12 +263,14 @@ class MagazineCreator:
 
 class Cover:
 
-    def __init__(self, articles, blank_page_after_cover: bool, header_image: Optional[str]):
+    def __init__(self, articles, blank_page_after_cover: bool, header_image: Optional[str], cover_text: Optional[str]):
         self.articles = articles
         self.blank_page_after_cover = blank_page_after_cover
         self.header_image = header_image
+        self.cover_text = cover_text
 
-        self.font_date = ImageFont.truetype("times.ttf", 50)
+        self.font_cover_text = ImageFont.truetype("times.ttf", 50)
+        self.font_date = ImageFont.truetype("times.ttf", 40)
         self.font_text = ImageFont.truetype("timesi.ttf", 40)
 
         self.out = Image.new("RGB", (1530, 1980), (255, 255, 255))
@@ -289,11 +291,18 @@ class Cover:
         x = int((1530/2) - (900/2))
         self.out.paste(im, box=(x, 35))
 
-        date_str = datetime.datetime.now().strftime("%Y / %m / %d")
+        if self.cover_text:
+            _, _, width, height = self.draw.multiline_textbbox((0, 0), self.cover_text,
+                                                               font=self.font_cover_text)
+            x = int((1530/2) - (width/2))
+            self.draw.text((x, 450), self.cover_text, font=self.font_cover_text, fill=(0, 0, 0))
+
+        date_str = datetime.datetime.now().strftime("%Y.%m.%d")
         _, _, width, height = self.draw.multiline_textbbox((0, 0), date_str,
                                                            font=self.font_date)
         x = int((1530/2) - (width/2))
-        self.draw.text((x, 450), date_str, font=self.font_date, fill=(0, 0, 0))
+        y = 520 if self.cover_text else 450
+        self.draw.text((x, y), date_str, font=self.font_date, fill=(0, 0, 0))
 
         y = 600
         # List the first 15 article titles

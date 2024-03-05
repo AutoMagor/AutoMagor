@@ -28,7 +28,7 @@ class Article:
         return f"Article<{self.text_path} - {self.title}>"
 
 
-def main(use_ink_saver: bool, blank_page_after_cover: bool, header_image: Optional[str]):
+def main(use_ink_saver: bool, blank_page_after_cover: bool, header_image: Optional[str], cover_text: Optional[str]):
     print("-- Auto Magor --")
 
     if header_image:
@@ -84,7 +84,7 @@ def main(use_ink_saver: bool, blank_page_after_cover: bool, header_image: Option
     if os.path.isdir("pages"):
         shutil.rmtree("pages")
 
-    cover = Cover(articles, blank_page_after_cover, header_image)
+    cover = Cover(articles, blank_page_after_cover, header_image, cover_text)
     cover.create()
 
     creator = MagazineCreator(articles, use_ink_saver, header_image)
@@ -115,9 +115,11 @@ if __name__ == "__main__":
                         action='store_true')
     parser.add_argument("--header-image",
                         help="Path to image that will be on the cover and articles that do not have an image.")
+    parser.add_argument("--cover-text",
+                        help="Text to display on the cover, under the header image.")
     args = parser.parse_args()
 
     if args.create:
-        main(not args.no_ink_saver, args.blank_page_after_cover, args.header_image)
+        main(not args.no_ink_saver, args.blank_page_after_cover, args.header_image, args.cover_text)
     else:
         parser.print_help()
