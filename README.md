@@ -3,7 +3,7 @@
 <img src="./cover.png" alt="Auto Magor Logo">
 <strong>Auto</strong>mated <strong>Mag</strong>azine Creat<strong>or</strong><br/>
 A simple Python program to create a 3 column print magazine from text files and images<br/>
-<a href="https://discord.gg/dt9s4DJ3">Discord</a> ● <a href="https://www.reddit.com/r/AutoMagor/">Reddit</a>
+<a href="https://discord.gg/3HNkP5GX9t">Discord</a>
 
 </div>
 <br/>
